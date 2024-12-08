@@ -1,11 +1,29 @@
 ﻿#include <iostream>
 #include <string>
 #include <Windows.h>
+#include <vector>
+#include <ctime>
+#include <cstdlib>
 using namespace std;
+
+void drawLine(int n)
+{
+	for (int i = 0; i < n; i++)
+		cout << "+---";
+	cout << "+\n";
+
+}
 
 void showTable(string table)
 {
-	cout << table << endl;
+	drawLine(table.size());
+	cout << "| ";
+	for (int i = 0; i < table.size(); i++)
+	{
+		cout << table[i] << " | ";
+	}
+	cout << "\n";
+	drawLine(table.size());
 }
 
 void draw(int err)
@@ -104,13 +122,24 @@ char input()
 	return c;
 }
 
+string randomWord()
+{
+	vector<string> words
+	{
+		"дружба","любовь","счастье","гуманизм","сострадание","мир","позитив","доверие","красота","природа"
+	};
+	int r = rand() % words.size();
+	return words[r];
+}
+
 int main()
 {
 	setlocale(LC_ALL, "rus");
 	SetConsoleCP(1251);
+	srand(time(0));
 
-	string word = "hangman";
-	string table = "-------";
+	string word = randomWord();
+	string table(word.size(), ' ');
 
 	int err = 0;
 	while (table != word && err < 6)
@@ -122,7 +151,10 @@ int main()
 		{
 			err++;
 		}
+		system("cls");
 	}
+	draw(err);
+	showTable(table);
 	if (word == table)
 	{
 		cout << "Вы победили!";
@@ -130,7 +162,8 @@ int main()
 	else
 	{
 		cout << "Вы проиграли!" << endl;
-		draw(err);
 	}
 	return 0;
+	cin.get();
+	cin.get();
 }
