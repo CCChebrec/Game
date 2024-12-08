@@ -137,33 +137,42 @@ int main()
 	setlocale(LC_ALL, "rus");
 	SetConsoleCP(1251);
 	srand(time(0));
-
-	string word = randomWord();
-	string table(word.size(), ' ');
-
-	int err = 0;
-	while (table != word && err < 6)
+	char flag = '&';
+	while (flag == '&')
 	{
+		string word = randomWord();
+		string table(word.size(), ' ');
+
+		int err = 0;
+		while (table != word && err < 6)
+		{
+			draw(err);
+			showTable(table);
+			char c = input();
+			if (!openLetters(word, table, c))
+			{
+				err++;
+			}
+			system("cls");
+		}
 		draw(err);
 		showTable(table);
-		char c = input();
-		if (!openLetters(word, table, c))
+		if (word == table)
 		{
-			err++;
+			cout << "Вы победили!" << endl;
 		}
+		else
+		{
+			cout << "Вы проиграли!" << endl;
+		}
+		cout << "нажмите любую клавишу";
+		cin.get();
+		cin.get();
 		system("cls");
+		cout << "Хотите сыграть ещё раз?(& - да, любой другой символ - нет)";
+		cin >> flag;
 	}
-	draw(err);
-	showTable(table);
-	if (word == table)
-	{
-		cout << "Вы победили!";
-	}
-	else
-	{
-		cout << "Вы проиграли!" << endl;
-	}
+	cin.get();
+	cin.get();
 	return 0;
-	cin.get();
-	cin.get();
 }
